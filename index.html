@@ -1,8 +1,3 @@
-<!--
-Nature Club — Plant QR Viewer
-Customized for: Strawberry Plant
--->
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,134 +5,207 @@ Customized for: Strawberry Plant
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Plant Info — Nature Club</title>
   <style>
-    :root{--bg:#041018;--card:#07232b;--accent:#ff5f6d;--muted:#9fb3b6;--glass:rgba(255,255,255,0.03)}
+    :root{
+      --bg:#041018;
+      --card:#07232b;
+      --accent:#ff5f6d;
+      --muted:#9fb3b6;
+      --glass:rgba(255,255,255,0.03)
+    }
     *{box-sizing:border-box;font-family:Inter, system-ui, Arial, sans-serif}
-    body{margin:0;background:linear-gradient(180deg,#01121a 0%, #042a30 100%);color:#e6f7f2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-    .container{width:100%;max-width:920px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border-radius:14px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
-    header{display:flex;align-items:center;gap:14px}
-    .plant-title{font-size:28px;font-weight:700;letter-spacing:0.4px}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#01121a 0%, #042a30 100%);
+      color:#e6f7f2;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:space-between;
+      padding:20px
+    }
+    .container{
+      width:100%;
+      max-width:720px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:14px;
+      padding:20px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.6)
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      position:relative;
+    }
+    .logo{
+      width:85px;
+      height:auto;
+    }
+    .plant-header{
+      flex:1;
+      text-align:center;
+    }
+    .plant-title{font-size:28px;font-weight:700;letter-spacing:0.4px;margin-bottom:4px}
     .meta{color:var(--muted);font-size:14px}
-    .viewer{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-top:18px}
-    @media (max-width:900px){.viewer{grid-template-columns:1fr;}.sidebar{order:2}}
-    .slideshow{position:relative;background:var(--glass);border-radius:12px;overflow:hidden;min-height:320px;display:flex;align-items:center;justify-content:center}
-    .slideshow img{width:100%;height:100%;object-fit:cover;display:block}
-    .slide-controls{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between}
-    .btn{background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:#e6f7f2;backdrop-filter:blur(4px);cursor:pointer}
-    .thumbnails{display:flex;gap:8px;padding:10px;overflow-x:auto}
-    .thumb{width:72px;height:52px;border-radius:8px;overflow:hidden;flex:0 0 auto;cursor:pointer;border:2px solid transparent}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .thumb.active{border-color:var(--accent)}
-    .sidebar{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px}
+    .sidebar{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px;
+      border-radius:12px;
+      margin-top:18px;
+    }
     .species{font-size:16px;color:var(--muted);margin-bottom:8px}
-    .desc{font-size:15px;line-height:1.4;color:#d9f3ec}
+    .desc{font-size:15px;line-height:1.6;color:#d9f3ec;white-space:pre-line}
     .audio-panel{margin-top:16px;display:flex;flex-direction:column;gap:10px}
-    .play-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#ff7e67);color:#022;cursor:pointer;border:none;font-weight:600}
-    .subtitle-box{margin-top:10px;background:rgba(0,0,0,0.15);padding:12px;border-radius:10px;min-height:64px}
-    .subtitle{font-size:16px}
-    .time{font-size:12px;color:var(--muted);margin-top:6px}
+    .play-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--accent),#ff7e67);
+      color:#022;
+      cursor:pointer;
+      border:none;
+      font-weight:600
+    }
     .small{font-size:13px;color:var(--muted)}
-    .qr-sample{margin-top:12px;background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;text-align:center}
+    .qr-sample{
+      margin-top:12px;
+      background:rgba(255,255,255,0.02);
+      padding:8px;
+      border-radius:8px;
+      text-align:center
+    }
+    footer{
+      margin-top:24px;
+      color:var(--muted);
+      font-size:17px;
+      text-align:center;
+      padding:10px;
+    }
   </style>
 </head>
 <body>
   <div class="container" id="app">
     <header>
-      <div class="plant-title" id="plantName">Plant</div>
-      <div style="flex:1"></div>
-      <div class="meta" id="plantLatin"></div>
+      <img src="assets/Trcaclogo.png" alt="Left Logo" class="logo">
+      <div class="plant-header">
+        <div class="plant-title" id="plantName">Plant</div>
+        <div class="meta" id="plantLatin"></div>
+      </div>
+      <img src="assets/Green_club.jpg" alt="Right Logo" class="logo">
     </header>
 
-    <div class="viewer">
-      <div>
-        <div class="slideshow" id="slideshow">
-          <div class="slide-controls">
-            <button class="btn" id="prevBtn">◀ Prev</button>
-            <button class="btn" id="nextBtn">Next ▶</button>
-          </div>
-          <img id="mainImg" src="" alt="Plant image">
+    <aside class="sidebar">
+      <div class="species" id="speciesLine">Loading plant...</div>
+      <div class="desc" id="desc">Description will appear here.</div>
+
+      <div class="audio-panel">
+        <audio id="audio" preload="metadata"></audio>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button id="playBtn" class="play-btn">Play Audio</button>
+          <div class="small" id="autoplayInfo">Will attempt autoplay in 3s</div>
         </div>
-        <div class="thumbnails" id="thumbs" aria-hidden="true"></div>
+
+        <div class="qr-sample small">
+          QR opened: <span id="openedUrl"></span>
+        </div>
       </div>
-
-      <aside class="sidebar">
-        <div class="species" id="speciesLine">Loading plant...</div>
-        <div class="desc" id="desc">Description will appear here.</div>
-
-        <div class="audio-panel">
-          <audio id="audio" preload="metadata"></audio>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button id="playBtn" class="play-btn">Play Audio</button>
-            <div class="small" id="autoplayInfo">Will attempt autoplay in 3s</div>
-          </div>
-
-          <div class="subtitle-box">
-            <div class="subtitle" id="subtitle">(subtitles will appear here)</div>
-            <div class="time" id="timeInfo"></div>
-          </div>
-
-          <div class="qr-sample small">
-            QR opened: <span id="openedUrl"></span>
-          </div>
-        </div>
-      </aside>
-    </div>
+    </aside>
 
     <div style="margin-top:14px;color:var(--muted);font-size:13px">Tip: If autoplay is blocked, tap Play.</div>
   </div>
+
+  <footer>
+    Developed and Managed by <strong>Dev Club</strong>
+  </footer>
 
   <script>
     const PLANTS = {
       strawberry: {
         title: 'Strawberry Plant',
         latin: 'Fragaria × ananassa',
-        desc: 'Hey! I’m the Strawberry Plant — the cheerful one in your garden! I grow sweet red berries packed with Vitamin C and joy. My green leaves and white flowers brighten any corner. I gift you fresh air while ripening my fruit — about 1–3 liters of oxygen every day! Give me sunlight, moist soil, and I’ll even make new runners on my own. 🍓',
-        images: [
-          'assets/strawberry1.jpg',
-          'assets/strawberry2.jpg',
-          'assets/strawberry3.jpg'
-        ],
-        audio: 'assets/strawberry.mp3',
-        captions: [
-          { start: 0.0, end: 4.0, text: "Hey! I’m the Strawberry Plant, the cheerful one in your garden." },
-          { start: 4.1, end: 9.0, text: "I grow sweet red berries packed with Vitamin C and joy." },
-          { start: 9.1, end: 14.0, text: "My green leaves and white flowers brighten any corner." },
-          { start: 14.1, end: 23.0, text: "While I’m growing, I quietly add about one to three liters of oxygen to your air every day — just a little gift while I ripen my fruit!" },
-          { start: 23.1, end: 33.0, text: "Give me six to eight hours of sunlight and moist, well-draining soil." },
-          { start: 33.1, end: 39.0, text: "I even make more of me through runners — no effort needed!" },
-          { start: 39.1, end: 44.0, text: "Fun fact — each strawberry has nearly two hundred seeds, and yes, I’m part of the rose family! Sweet, small, and mighty." }
-        ]
+        desc: `
+A sweet, red, heart-shaped fruit known for its juicy flavor and delightful aroma.
+
+🌿 Estimated Oxygen Release Rate:
+Around 3–5 liters of oxygen per day, depending on sunlight, plant health, and number of leaves.
+Strawberry plants also help purify the air and absorb harmful gases, making them excellent additions to gardens and balconies.
+
+✨ Attractive & Interesting Uses:
+
+1️⃣ Delicious & Nutritious Fruit:
+Strawberries are rich in vitamin C, antioxidants, and fiber.
+They can be eaten fresh, used in juices, jams, cakes, desserts, or even salads — making them both healthy and tasty!
+
+2️⃣ Beautiful Garden Plant:
+With their lush green leaves, white flowers, and bright red fruits, strawberry plants are perfect for balconies, hanging pots, or kitchen gardens.
+
+🌸 Fun Fact:
+Each strawberry isn’t a single fruit — it’s a cluster of tiny fruits (called achenes) on the surface of the red flesh!
+        `,
+        audio: 'assets/strawberry.mp3'
       }
     };
 
-    // -------- Core logic below (same as base version) ----------
+    // ------- Core logic -------
     function getParam(name){const url=new URL(location.href);return url.searchParams.get(name);}
-    const id=getParam('id')||'strawberry'; const plant=PLANTS[id];
-    const openedUrlSpan=document.getElementById('openedUrl'); openedUrlSpan.textContent=location.href;
+    const id=getParam('id')||'strawberry'; 
+    const plant=PLANTS[id];
+    const openedUrlSpan=document.getElementById('openedUrl'); 
+    openedUrlSpan.textContent=location.href;
 
-    if(!plant){document.getElementById('plantName').textContent='Plant not found';document.getElementById('desc').textContent='No data for id: '+id;throw new Error('Plant data missing for id: '+id);}
+    if(!plant){
+      document.getElementById('plantName').textContent='Plant not found';
+      document.getElementById('desc').textContent='No data for id: '+id;
+      throw new Error('Plant data missing for id: '+id);
+    }
+
     document.getElementById('plantName').textContent=plant.title;
     document.getElementById('plantLatin').textContent=plant.latin||'';
     document.getElementById('speciesLine').textContent=(plant.latin?plant.title+' — '+plant.latin:plant.title);
     document.getElementById('desc').textContent=plant.desc||'';
 
-    const mainImg=document.getElementById('mainImg'); const thumbs=document.getElementById('thumbs');
-    let currentIndex=0;
-    function setSlide(i){if(!plant.images||plant.images.length===0)return;currentIndex=(i+plant.images.length)%plant.images.length;mainImg.src=plant.images[currentIndex];Array.from(thumbs.children).forEach((t,idx)=>t.classList.toggle('active',idx===currentIndex));}
-    plant.images.forEach((src,idx)=>{const div=document.createElement('div');div.className='thumb'+(idx===0?' active':'');const img=document.createElement('img');img.src=src;img.alt=plant.title+' image '+(idx+1);div.appendChild(img);div.addEventListener('click',()=>setSlide(idx));thumbs.appendChild(div);});
-    setSlide(0);
-    document.getElementById('prevBtn').addEventListener('click',()=>setSlide(currentIndex-1));
-    document.getElementById('nextBtn').addEventListener('click',()=>setSlide(currentIndex+1));
+    // ---- Audio Logic ----
+    const audio=document.getElementById('audio'); 
+    audio.src=plant.audio; 
+    audio.crossOrigin='anonymous';
+    const autoplayInfo=document.getElementById('autoplayInfo');
+    const playBtn=document.getElementById('playBtn');
 
-    const audio=document.getElementById('audio'); audio.src=plant.audio; audio.crossOrigin='anonymous';
-    const captions=plant.captions||[]; const subtitleEl=document.getElementById('subtitle'); const timeInfo=document.getElementById('timeInfo');
-    function updateSubtitle(){const t=audio.currentTime;timeInfo.textContent=formatTime(t)+' / '+(isFinite(audio.duration)?formatTime(audio.duration):'--:--');const cue=captions.find(c=>t>=c.start&&t<=c.end);subtitleEl.textContent=cue?cue.text:'';}
-    function formatTime(s){if(!isFinite(s))return'--:--';const mm=Math.floor(s/60).toString().padStart(2,'0');const ss=Math.floor(s%60).toString().padStart(2,'0');return mm+':'+ss;}
-    audio.addEventListener('timeupdate',updateSubtitle); audio.addEventListener('loadedmetadata',updateSubtitle);
-    const autoplayInfo=document.getElementById('autoplayInfo'); const playBtn=document.getElementById('playBtn');
-    function attemptAutoplay(){autoplayInfo.textContent='Attempting autoplay in 3s...';setTimeout(async()=>{try{await audio.play();autoplayInfo.textContent='Playing automatically';playBtn.textContent='Pause';}catch(err){autoplayInfo.textContent='Autoplay blocked — tap Play';playBtn.textContent='Play Audio';}},3000);}
-    playBtn.addEventListener('click',async()=>{if(audio.paused){try{await audio.play();playBtn.textContent='Pause';autoplayInfo.textContent='Playing';}catch(e){autoplayInfo.textContent='Unable to play';}}else{audio.pause();playBtn.textContent='Play Audio';autoplayInfo.textContent='Paused';}});
+    function attemptAutoplay(){
+      autoplayInfo.textContent='Attempting autoplay in 3s...';
+      setTimeout(async()=>{
+        try{
+          await audio.play();
+          autoplayInfo.textContent='Playing automatically';
+          playBtn.textContent='Pause';
+        }catch(err){
+          autoplayInfo.textContent='Autoplay blocked — tap Play';
+          playBtn.textContent='Play Audio';
+        }
+      },3000);
+    }
+
+    playBtn.addEventListener('click',async()=>{
+      if(audio.paused){
+        try{
+          await audio.play();
+          playBtn.textContent='Pause';
+          autoplayInfo.textContent='Playing';
+        }catch(e){
+          autoplayInfo.textContent='Unable to play';
+        }
+      }else{
+        audio.pause();
+        playBtn.textContent='Play Audio';
+        autoplayInfo.textContent='Paused';
+      }
+    });
+
     attemptAutoplay();
-    document.addEventListener('keydown',(e)=>{if(e.key==='ArrowLeft')setSlide(currentIndex-1);if(e.key==='ArrowRight')setSlide(currentIndex+1);});
   </script>
 </body>
 </html>
