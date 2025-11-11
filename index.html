@@ -120,6 +120,23 @@
       word-wrap: break-word;
     }
 
+    #enableAudioBtn {
+      display: none;
+      margin: 10px auto 20px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #enableAudioBtn:hover {
+      background: #ff7e67;
+    }
+
     footer {
       margin-top: 24px;
       color: var(--muted);
@@ -154,6 +171,10 @@
     <aside class="sidebar">
       <div class="species" id="speciesLine">Loading plant...</div>
       <div id="plantImageContainer"></div>
+
+      <!-- Enable Audio Button -->
+      <button id="enableAudioBtn">🔊 Enable Audio</button>
+
       <div class="desc" id="desc">Description will appear here.</div>
 
       <audio id="audio" preload="metadata"></audio>
@@ -173,12 +194,12 @@
   </footer>
 
   <script>
-  const PLANTS = {
-    strawberry: {
-      title: 'Strawberry Plant',
-      latin: 'Fragaria × ananassa',
-      image: 'assets/strawberry.jpg',
-      desc: `
+    const PLANTS = {
+      strawberry: {
+        title: 'Strawberry Plant',
+        latin: 'Fragaria × ananassa',
+        image: 'assets/strawberry.jpg',
+        desc: `
 A sweet, red, heart-shaped fruit known for its juicy flavor and delightful aroma.
 
 🌿 Estimated Oxygen Release Rate:
@@ -196,76 +217,72 @@ With their lush green leaves, white flowers, and bright red fruits, strawberry p
 
 🌸 Fun Fact:
 Each strawberry isn’t a single fruit — it’s a cluster of tiny fruits (called achenes) on the surface of the red flesh!
-      `,
-      audio: 'assets/strawberry.mp3'
+        `,
+        audio: 'assets/strawberry.mp3'
+      }
+    };
+
+    function getParam(name) {
+      const url = new URL(location.href);
+      return url.searchParams.get(name);
     }
-  };
 
-  function getParam(name) {
-    const url = new URL(location.href);
-    return url.searchParams.get(name);
-  }
+    const id = getParam('id') || 'strawberry';
+    const plant = PLANTS[id];
+    const openedUrlSpan = document.getElementById('openedUrl');
+    openedUrlSpan.textContent = location.href;
 
-  const id = getParam('id') || 'strawberry';
-  const plant = PLANTS[id];
-  const openedUrlSpan = document.getElementById('openedUrl');
-  openedUrlSpan.textContent = location.href;
+    if (!plant) {
+      document.getElementById('plantName').textContent = 'Plant not found';
+      document.getElementById('desc').textContent = 'No data for id: ' + id;
+      throw new Error('Plant data missing for id: ' + id);
+    }
 
-  if (!plant) {
-    document.getElementById('plantName').textContent = 'Plant not found';
-    document.getElementById('desc').textContent = 'No data for id: ' + id;
-    throw new Error('Plant data missing for id: ' + id);
-  }
+    // Fill content
+    document.getElementById('plantName').textContent = plant.title;
+    document.getElementById('plantLatin').textContent = plant.latin || '';
+    document.getElementById('speciesLine').textContent = (plant.latin ? plant.title + ' — ' + plant.latin : plant.title);
 
-  // Fill content
-  document.getElementById('plantName').textContent = plant.title;
-  document.getElementById('plantLatin').textContent = plant.latin || '';
-  document.getElementById('speciesLine').textContent = (plant.latin ? plant.title + ' — ' + plant.latin : plant.title);
+    // Add plant image
+    if (plant.image) {
+      const img = document.createElement('img');
+      img.src = plant.image;
+      img.alt = plant.title;
+      img.className = 'plant-img';
+      document.getElementById('plantImageContainer').appendChild(img);
+    }
 
-  // Add plant image
-  if (plant.image) {
-    const img = document.createElement('img');
-    img.src = plant.image;
-    img.alt = plant.title;
-    img.className = 'plant-img';
-    document.getElementById('plantImageContainer').appendChild(img);
-  }
+    // Add description
+    document.getElementById('desc').textContent = plant.desc || '';
 
-  // Add description
-  document.getElementById('desc').textContent = plant.desc || '';
+    // ---- Audio logic ----
+    const audio = document.getElementById('audio');
+    audio.src = plant.audio;
+    audio.crossOrigin = 'anonymous';
+    audio.volume = 1;
 
-  // ---- Audio logic ----
-  const audio = document.getElementById('audio');
-  audio.src = plant.audio;
-  audio.crossOrigin = 'anonymous';
-  audio.volume = 1;
+    function tryPlay() {
+      audio.muted = true;
+      audio.play().then(() => {
+        // success muted → unmute after a sec
+        setTimeout(() => { audio.muted = false; }, 1);
+      }).catch(() => {
+        // Show the enable audio button
+        const btn = document.getElementById('enableAudioBtn');
+        btn.style.display = 'block';
 
-  function tryPlay() {
-    audio.muted = true;
-    audio.play().then(() => {
-      // success muted → unmute after a sec
-      setTimeout(() => { audio.muted = false; }, 1000);
-    }).catch(() => {
-      const tip = document.createElement('div');
-      tip.textContent = '🔊 Tap anywhere to enable audio';
-      tip.style.color = '#ff7e67';
-      tip.style.textAlign = 'center';
-      tip.style.marginTop = '10px';
-      document.querySelector('.sidebar').appendChild(tip);
+        btn.addEventListener('click', () => {
+          audio.muted = false;
+          audio.play();
+          btn.style.display = 'none'; // hide button after playing
+        }, { once: true });
+      });
+    }
 
-      // try again on user interaction
-      document.body.addEventListener('click', () => {
-        audio.muted = false;
-        audio.play();
-        tip.remove();
-      }, { once: true });
+    window.addEventListener('load', () => {
+      setTimeout(tryPlay, 2000);
     });
-  }
-
-  window.addEventListener('load', () => {
-    setTimeout(tryPlay, 2000);
-  });
-</script>
+  </script>
 
 </body>
 </html>
