@@ -2,88 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Plant Info — Nature Club</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --bg:#041018;
-      --card:#07232b;
-      --accent:#ff5f6d;
-      --muted:#9fb3b6;
-      --glass:rgba(255,255,255,0.03)
+    :root {
+      --bg: #041018;
+      --card: #07232b;
+      --accent: #ff5f6d;
+      --muted: #a3bcbc;
+      --text: #eaf7f3;
     }
-    *{box-sizing:border-box;font-family:Inter, system-ui, Arial, sans-serif}
-    body{
-      margin:0;
-      background:linear-gradient(180deg,#01121a 0%, #042a30 100%);
-      color:#e6f7f2;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:space-between;
-      padding:20px
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', system-ui, Arial, sans-serif;
     }
-    .container{
-      width:100%;
-      max-width:720px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border-radius:14px;
-      padding:20px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.6)
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #01121a 0%, #042a30 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
     }
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      position:relative;
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
     }
-    .logo{
-      width:85px;
-      height:auto;
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .plant-header{
-      flex:1;
-      text-align:center;
+
+    .logo {
+      width: 85px;
+      height: auto;
+      border-radius: 8px;
     }
-    .plant-title{font-size:28px;font-weight:700;letter-spacing:0.4px;margin-bottom:4px}
-    .meta{color:var(--muted);font-size:14px}
-    .sidebar{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:18px;
-      border-radius:12px;
-      margin-top:18px;
+
+    .plant-header {
+      flex: 1;
+      text-align: center;
     }
-    .species{font-size:16px;color:var(--muted);margin-bottom:8px}
-    .desc{font-size:15px;line-height:1.6;color:#d9f3ec;white-space:pre-line}
-    .audio-panel{margin-top:16px;display:flex;flex-direction:column;gap:10px}
-    .play-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      border-radius:10px;
-      background:linear-gradient(90deg,var(--accent),#ff7e67);
-      color:#022;
-      cursor:pointer;
-      border:none;
-      font-weight:600
+
+    .plant-title {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+      color: #fff;
     }
-    .small{font-size:13px;color:var(--muted)}
-    .qr-sample{
-      margin-top:12px;
-      background:rgba(255,255,255,0.02);
-      padding:8px;
-      border-radius:8px;
-      text-align:center
+
+    .meta {
+      color: var(--muted);
+      font-size: 15px;
     }
-    footer{
-      margin-top:24px;
-      color:var(--muted);
-      font-size:16px;
-      text-align:center;
-      padding:10px;
+
+    .sidebar {
+      background: rgba(255,255,255,0.04);
+      padding: 20px;
+      border-radius: 14px;
+      margin-top: 24px;
+    }
+
+    .species {
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .plant-img {
+      width: 100%;
+      max-width: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 10px auto 20px;
+      display: block;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .desc {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #e8f7f0;
+      white-space: pre-line;
+      text-align: justify;
+      margin-bottom: 20px;
+    }
+
+    .qr-sample {
+      margin-top: 16px;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      word-wrap: break-word;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 15px;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .container { padding: 18px; }
+      .logo { width: 70px; }
+      .plant-title { font-size: 24px; }
+      .desc { font-size: 14px; }
+      footer { font-size: 13px; }
     }
   </style>
 </head>
@@ -100,22 +153,19 @@
 
     <aside class="sidebar">
       <div class="species" id="speciesLine">Loading plant...</div>
+      <div id="plantImageContainer"></div>
       <div class="desc" id="desc">Description will appear here.</div>
 
-      <div class="audio-panel">
-        <audio id="audio" preload="metadata"></audio>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button id="playBtn" class="play-btn">Play Audio</button>
-          <div class="small" id="autoplayInfo">Will attempt autoplay in 3s</div>
-        </div>
+      <audio id="audio" preload="metadata"></audio>
 
-        <div class="qr-sample small">
-          QR opened: <span id="openedUrl"></span>
-        </div>
+      <div class="qr-sample small">
+        QR opened: <span id="openedUrl"></span>
       </div>
     </aside>
 
-    <div style="margin-top:14px;color:var(--muted);font-size:13px">Tip: If autoplay is blocked, tap Play.</div>
+    <div style="margin-top:14px;color:var(--muted);font-size:13px;text-align:center">
+      Tip: Audio will auto-play shortly.
+    </div>
   </div>
 
   <footer>
@@ -127,6 +177,7 @@
       strawberry: {
         title: 'Strawberry Plant',
         latin: 'Fragaria × ananassa',
+        image: 'assets/strawberry.jpg',
         desc: `
 A sweet, red, heart-shaped fruit known for its juicy flavor and delightful aroma.
 
@@ -152,9 +203,9 @@ Each strawberry isn’t a single fruit — it’s a cluster of tiny fruits (call
 
     // ------- Core logic -------
     function getParam(name){const url=new URL(location.href);return url.searchParams.get(name);}
-    const id=getParam('id')||'strawberry'; 
+    const id=getParam('id')||'strawberry';
     const plant=PLANTS[id];
-    const openedUrlSpan=document.getElementById('openedUrl'); 
+    const openedUrlSpan=document.getElementById('openedUrl');
     openedUrlSpan.textContent=location.href;
 
     if(!plant){
@@ -163,49 +214,36 @@ Each strawberry isn’t a single fruit — it’s a cluster of tiny fruits (call
       throw new Error('Plant data missing for id: '+id);
     }
 
+    // Fill content
     document.getElementById('plantName').textContent=plant.title;
     document.getElementById('plantLatin').textContent=plant.latin||'';
     document.getElementById('speciesLine').textContent=(plant.latin?plant.title+' — '+plant.latin:plant.title);
+
+    // Add plant image BELOW the species line (centered)
+    if(plant.image){
+      const img=document.createElement('img');
+      img.src=plant.image;
+      img.alt=plant.title;
+      img.className='plant-img';
+      document.getElementById('plantImageContainer').appendChild(img);
+    }
+
+    // Add description text
     document.getElementById('desc').textContent=plant.desc||'';
 
     // ---- Audio Logic ----
-    const audio=document.getElementById('audio'); 
-    audio.src=plant.audio; 
+    const audio=document.getElementById('audio');
+    audio.src=plant.audio;
     audio.crossOrigin='anonymous';
-    const autoplayInfo=document.getElementById('autoplayInfo');
-    const playBtn=document.getElementById('playBtn');
 
-    function attemptAutoplay(){
-      autoplayInfo.textContent='Attempting autoplay in 3s...';
-      setTimeout(async()=>{
-        try{
-          await audio.play();
-          autoplayInfo.textContent='Playing automatically';
-          playBtn.textContent='Pause';
-        }catch(err){
-          autoplayInfo.textContent='Autoplay blocked — tap Play';
-          playBtn.textContent='Play Audio';
-        }
-      },3000);
-    }
-
-    playBtn.addEventListener('click',async()=>{
-      if(audio.paused){
-        try{
-          await audio.play();
-          playBtn.textContent='Pause';
-          autoplayInfo.textContent='Playing';
-        }catch(e){
-          autoplayInfo.textContent='Unable to play';
-        }
-      }else{
-        audio.pause();
-        playBtn.textContent='Play Audio';
-        autoplayInfo.textContent='Paused';
-      }
+    // Auto-play after 2 seconds
+    window.addEventListener('load', ()=>{
+      setTimeout(()=>{
+        audio.play().catch(err=>{
+          console.warn('Autoplay blocked by browser:', err);
+        });
+      }, 2000);
     });
-
-    attemptAutoplay();
   </script>
 </body>
 </html>
