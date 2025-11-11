@@ -92,7 +92,7 @@
 
     .plant-img {
       width: 100%;
-      max-width: 350px;
+      max-width: 300px;
       object-fit: cover;
       border-radius: 12px;
       margin: 10px auto 20px;
@@ -173,12 +173,12 @@
   </footer>
 
   <script>
-    const PLANTS = {
-      strawberry: {
-        title: 'Strawberry Plant',
-        latin: 'Fragaria × ananassa',
-        image: 'assets/strawberry.jpg',
-        desc: `
+  const PLANTS = {
+    strawberry: {
+      title: 'Strawberry Plant',
+      latin: 'Fragaria × ananassa',
+      image: 'assets/strawberry.jpg',
+      desc: `
 A sweet, red, heart-shaped fruit known for its juicy flavor and delightful aroma.
 
 🌿 Estimated Oxygen Release Rate:
@@ -196,54 +196,76 @@ With their lush green leaves, white flowers, and bright red fruits, strawberry p
 
 🌸 Fun Fact:
 Each strawberry isn’t a single fruit — it’s a cluster of tiny fruits (called achenes) on the surface of the red flesh!
-        `,
-        audio: 'assets/strawberry.mp3'
-      }
-    };
-
-    // ------- Core logic -------
-    function getParam(name){const url=new URL(location.href);return url.searchParams.get(name);}
-    const id=getParam('id')||'strawberry';
-    const plant=PLANTS[id];
-    const openedUrlSpan=document.getElementById('openedUrl');
-    openedUrlSpan.textContent=location.href;
-
-    if(!plant){
-      document.getElementById('plantName').textContent='Plant not found';
-      document.getElementById('desc').textContent='No data for id: '+id;
-      throw new Error('Plant data missing for id: '+id);
+      `,
+      audio: 'assets/strawberry.mp3'
     }
+  };
 
-    // Fill content
-    document.getElementById('plantName').textContent=plant.title;
-    document.getElementById('plantLatin').textContent=plant.latin||'';
-    document.getElementById('speciesLine').textContent=(plant.latin?plant.title+' — '+plant.latin:plant.title);
+  function getParam(name) {
+    const url = new URL(location.href);
+    return url.searchParams.get(name);
+  }
 
-    // Add plant image BELOW the species line (centered)
-    if(plant.image){
-      const img=document.createElement('img');
-      img.src=plant.image;
-      img.alt=plant.title;
-      img.className='plant-img';
-      document.getElementById('plantImageContainer').appendChild(img);
-    }
+  const id = getParam('id') || 'strawberry';
+  const plant = PLANTS[id];
+  const openedUrlSpan = document.getElementById('openedUrl');
+  openedUrlSpan.textContent = location.href;
 
-    // Add description text
-    document.getElementById('desc').textContent=plant.desc||'';
+  if (!plant) {
+    document.getElementById('plantName').textContent = 'Plant not found';
+    document.getElementById('desc').textContent = 'No data for id: ' + id;
+    throw new Error('Plant data missing for id: ' + id);
+  }
 
-    // ---- Audio Logic ----
-    const audio=document.getElementById('audio');
-    audio.src=plant.audio;
-    audio.crossOrigin='anonymous';
+  // Fill content
+  document.getElementById('plantName').textContent = plant.title;
+  document.getElementById('plantLatin').textContent = plant.latin || '';
+  document.getElementById('speciesLine').textContent = (plant.latin ? plant.title + ' — ' + plant.latin : plant.title);
 
-    // Auto-play after 2 seconds
-    window.addEventListener('load', ()=>{
-      setTimeout(()=>{
-        audio.play().catch(err=>{
-          console.warn('Autoplay blocked by browser:', err);
-        });
-      }, 2000);
+  // Add plant image
+  if (plant.image) {
+    const img = document.createElement('img');
+    img.src = plant.image;
+    img.alt = plant.title;
+    img.className = 'plant-img';
+    document.getElementById('plantImageContainer').appendChild(img);
+  }
+
+  // Add description
+  document.getElementById('desc').textContent = plant.desc || '';
+
+  // ---- Audio logic ----
+  const audio = document.getElementById('audio');
+  audio.src = plant.audio;
+  audio.crossOrigin = 'anonymous';
+  audio.volume = 1;
+
+  function tryPlay() {
+    audio.muted = true;
+    audio.play().then(() => {
+      // success muted → unmute after a sec
+      setTimeout(() => { audio.muted = false; }, 1000);
+    }).catch(() => {
+      const tip = document.createElement('div');
+      tip.textContent = '🔊 Tap anywhere to enable audio';
+      tip.style.color = '#ff7e67';
+      tip.style.textAlign = 'center';
+      tip.style.marginTop = '10px';
+      document.querySelector('.sidebar').appendChild(tip);
+
+      // try again on user interaction
+      document.body.addEventListener('click', () => {
+        audio.muted = false;
+        audio.play();
+        tip.remove();
+      }, { once: true });
     });
-  </script>
+  }
+
+  window.addEventListener('load', () => {
+    setTimeout(tryPlay, 2000);
+  });
+</script>
+
 </body>
 </html>
